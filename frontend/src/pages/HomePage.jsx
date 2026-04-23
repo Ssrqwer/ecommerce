@@ -43,7 +43,7 @@ const HomePage = () => {
 			</div>
 
 			{/* Chat Widget - Two separate components */}
-			<ChatToggle onClick={() => setIsChatOpen(true)} />
+			<ChatToggle isOpen={isChatOpen} onClick={() => setIsChatOpen(true)} />
 			<ChatPanel isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
 		</div>
 	);

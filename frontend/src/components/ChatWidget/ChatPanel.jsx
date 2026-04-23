@@ -13,14 +13,14 @@ import {
 
 // ─── Framer-motion variants ────────────────────────────────────────────────
 const panelVariants = {
-  hidden: { x: "-100%", opacity: 0 },
+  hidden: { x: "100%", opacity: 0 },
   visible: {
     x: 0,
     opacity: 1,
     transition: { type: "spring", damping: 28, stiffness: 260 },
   },
   exit: {
-    x: "-100%",
+    x: "100%",
     opacity: 0,
     transition: { duration: 0.22, ease: "easeIn" },
   },
@@ -30,7 +30,7 @@ const panelVariants = {
 async function sendMessage(message) {
   const history = getRecentContext();
 
-  const res = await fetch("/api/chat/", {
+  const res = await fetch(import.meta.env.VITE_CHAT_AI, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, history }),
@@ -128,7 +128,7 @@ export default function ChatPanel({ isOpen, onClose }) {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed left-0 top-0 h-full w-96 z-40 bg-gray-900 flex flex-col shadow-2xl"
+          className="fixed right-0 top-0 h-full w-96 z-40 bg-gray-900 flex flex-col shadow-2xl"
         >
           {/* Header */}
           <div className="flex justify-between items-center p-4 border-b border-gray-700 shrink-0">
