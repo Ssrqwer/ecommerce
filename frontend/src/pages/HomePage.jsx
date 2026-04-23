@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import CategoryItem from "../components/CategoryItem";
 import { useProductStore } from "../stores/useProductStore";
 import FeaturedProducts from "../components/FeaturedProducts";
+import ChatToggle from "../components/ChatWidget/ChatToggle";
+import ChatPanel from "../components/ChatWidget/ChatPanel";
 
 const categories = [
 	{ href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
@@ -15,6 +17,7 @@ const categories = [
 
 const HomePage = () => {
 	const { fetchFeaturedProducts, products, isLoading } = useProductStore();
+	const [isChatOpen, setIsChatOpen] = useState(false);
 
 	useEffect(() => {
 		fetchFeaturedProducts();
@@ -38,6 +41,10 @@ const HomePage = () => {
 
 				{!isLoading && products.length > 0 && <FeaturedProducts featuredProducts={products} />}
 			</div>
+
+			{/* Chat Widget - Two separate components */}
+			<ChatToggle onClick={() => setIsChatOpen(true)} />
+			<ChatPanel isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
 		</div>
 	);
 };
