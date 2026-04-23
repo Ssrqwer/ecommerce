@@ -7,7 +7,7 @@ import { MessageCircle } from "lucide-react";
  * Fixed-position circular button that opens the chat panel.
  * @param {{ onClick: () => void }} props
  */
-export default function ToggleButton({ onClick }) {
+export default function ChatToggle({ onClick }) {
   return (
     <motion.button
       onClick={onClick}
