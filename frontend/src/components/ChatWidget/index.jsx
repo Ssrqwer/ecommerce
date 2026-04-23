@@ -1,6 +1,4 @@
-"use client";
-
-import ToggleButton from "./ToggleButton";
+import ChatToggle from "./ChatToggle";
 import ChatPanel from "./ChatPanel";
 
 /**
@@ -9,18 +7,20 @@ import ChatPanel from "./ChatPanel";
  * Usage in a parent page:
  *
  *   import ChatWidget from '@/components/ChatWidget';
+ *   // or named:
+ *   import { ChatToggle, ChatPanel } from '@/components/ChatWidget';
  *
  *   const [isChatOpen, setIsChatOpen] = useState(false);
  *
- *   <ChatWidget.ToggleButton onClick={() => setIsChatOpen(true)} />
+ *   <ChatWidget.Toggle onClick={() => setIsChatOpen(true)} />
  *   <ChatWidget.Panel isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
  */
 const ChatWidget = {
-  ToggleButton,
+  Toggle: ChatToggle,
   Panel: ChatPanel,
 };
 
 export default ChatWidget;
 
 // Named exports for convenience
-export { ToggleButton, ChatPanel as Panel };
+export { ChatToggle, ChatPanel };
