@@ -30,7 +30,7 @@ const panelVariants = {
 async function sendMessage(message) {
   const history = getRecentContext();
 
-  const res = await fetch(import.meta.env.VITE_CHAT_AI, {
+  const res = await fetch("http://localhost:8000/api/chat/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, history }),
