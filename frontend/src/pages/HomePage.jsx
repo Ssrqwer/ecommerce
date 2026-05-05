@@ -4,6 +4,7 @@ import { useProductStore } from "../stores/useProductStore";
 import FeaturedProducts from "../components/FeaturedProducts";
 import ChatToggle from "../components/ChatWidget/ChatToggle";
 import ChatPanel from "../components/ChatWidget/ChatPanel";
+import CRMToggle from "../components/CRMToggle"; // New import
 
 const categories = [
 	{ href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
@@ -15,6 +16,8 @@ const categories = [
 	{ href: "/bags", name: "Bags", imageUrl: "/bags.jpg" },
 ];
 
+const CRM_URL = "https://crm-saurabh-singh-rathore.onrender.com";
+
 const HomePage = () => {
 	const { fetchFeaturedProducts, products, isLoading } = useProductStore();
 	const [isChatOpen, setIsChatOpen] = useState(false);
@@ -22,6 +25,38 @@ const HomePage = () => {
 	useEffect(() => {
 		fetchFeaturedProducts();
 	}, [fetchFeaturedProducts]);
+
+	// Pre-warm CRM backend - fires immediately on mount
+	useEffect(() => {
+		const warmUpCRM = async () => {
+			try {
+				// Fire-and-forget fetch to wake up the backend
+				// Using no-cors to avoid CORS issues, just need to hit the server
+				fetch(CRM_URL, { 
+					mode: 'no-cors',
+					// Short timeout so it doesn't hang
+					signal: AbortSignal.timeout(5000) 
+				}).catch(() => {
+					// Silently fail - we just want to trigger the cold start
+				});
+			} catch (error) {
+				// Ignore errors, this is just a warm-up
+			}
+		};
+		
+		warmUpCRM();
+	}, []);
+
+	// Modified CRM click handler with pre-check and redirect
+	const handleCRMClick = async () => {
+		// Open in new tab immediately for better UX
+		const crmWindow = window.open(CRM_URL, '_blank');
+		
+		// If popup blocked, fallback to same tab
+		if (!crmWindow) {
+			window.location.href = CRM_URL;
+		}
+	};
 
 	return (
 		<div className='relative min-h-screen text-white overflow-hidden'>
@@ -42,9 +77,12 @@ const HomePage = () => {
 				{!isLoading && products.length > 0 && <FeaturedProducts featuredProducts={products} />}
 			</div>
 
-			{/* Chat Widget - Two separate components */}
+			{/* Chat Widget */}
 			<ChatToggle isOpen={isChatOpen} onClick={() => setIsChatOpen(true)} />
 			<ChatPanel isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+			
+			{/* CRM Button - New Addition */}
+			<CRMToggle onClick={handleCRMClick} />
 		</div>
 	);
 };
